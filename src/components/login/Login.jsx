@@ -3,7 +3,8 @@ import './login.css';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { auth, db } from '../lib/firebase';
-import { setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
+import upload from '../lib/upload';
 function Login() {
     const handleLogin = e => {
         e.preventDefault();
@@ -16,11 +17,11 @@ function Login() {
         const { username, email, password } = Object.fromEntries(formData);
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-
-
+            const imgUrl = await upload(avatar.file);
             await setDoc(doc(db, "users", res.user.uid), {
                 username,
                 email,
+                avatar: imgUrl,
                 id: res.user.uid,
                 blocked: []
             });
