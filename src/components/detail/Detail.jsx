@@ -39,6 +39,8 @@ function Detail() {
                 </div>
             </div>
             <button>Block User</button>
+            <button className='logOut'>Logout</button>
+
         </div>
     )
 }
